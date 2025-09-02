@@ -1,0 +1,21 @@
+name: Docker Build and Run
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker Image
+        run: docker build -t booknest-app .
+
+      - name: Run Container (test)
+        run: docker run -d -p 8084:80 --name booknest booknest-app
